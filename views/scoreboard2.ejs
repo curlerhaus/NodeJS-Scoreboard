@@ -1,0 +1,151 @@
+<html>
+<head></head>
+<body>
+<canvas id="myCanvas" width="1920" height="1080"
+style="border:0px solid #d3d3d3; background-color">Your browser does not support the HTML5 canvas tag.</canvas>
+<script>
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+function getUrlParam(parameter, defaultvalue) {
+  var urlparameter = defaultvalue;
+  if(window.location.href.indexOf(parameter) > -1){
+    urlparameter = getUrlVars()[parameter];
+  }
+  return urlparameter;
+}
+
+var STONE_ICON_RED = 'images/redrock.svg';
+var STONE_ICON_YEL = 'images/yellowrock.svg';
+
+function refreshScoreboard() {
+  var request = new XMLHttpRequest();
+  request.open('GET', '/scoreboard.json?sheetNumber=' + getUrlParam('sheetNumber', 3), true);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      scoreboard = JSON.parse(request.responseText);
+	  console.log(scoreboard);
+      var c = document.getElementById('myCanvas');
+      var ctx=c.getContext('2d');
+	  
+      
+	  
+	  
+	var backgroundImage = new Image;
+		backgroundImage.onload = function() { 
+			ctx.clearRect(0, 0, 1920, 1080);
+			ctx.drawImage(backgroundImage, 0, 0, 1361, 212);
+			ctx.font='bold 37px verdana';
+			ctx.fillStyle='#52527a';
+			ctx.textAlign = 'center';
+			var redTotal = 0;
+			var yellowTotal = 0;
+			scoreboard.red.end.forEach(function(f) {
+				redTotal += parseInt(f);
+			});
+			scoreboard.yellow.end.forEach(function(f) {
+				yellowTotal += parseInt(f);
+			});
+			ctx.font='bold 30px verdana';
+			ctx.fillText(scoreboard.red.name, 308, 102);
+           
+
+			ctx.fillStyle='#52527a';
+			ctx.fillText(scoreboard.yellow.name, 1045, 102);
+			ctx.fillStyle='#52527a';
+			ctx.fillText("End " + (scoreboard.end), 678, 102);
+			ctx.fillStyle='white';
+			ctx.fillText(redTotal, 545, 100);
+			var leftOffset = 609
+
+			ctx.fillStyle='white';
+			ctx.fillText(yellowTotal, 810, 100);
+
+			ctx.font='bold 34px Helvetica';
+		  ctx.fillStyle = '#eeeeee';
+		  //ctx.fillText(scoreboard.end, 280, 305);
+		  ctx.font='bold 30px Verdana';
+		  ctx.textAlign = 'center';
+		  //ctx.fillText(scoreboard.matchName, 250, 50);
+		  //ctx.fillText(scoreboard.drawName, 250, 90);
+		  if (scoreboard.end != "End 0" && scoreboard.end != "Final") {
+			xpos = scoreboard.hammer == 'red' ? 70 : 1245;
+			var image = new Image;
+			image.onload = function() { ctx.drawImage(image, xpos, 70, 40, 40); }
+			image.src = 'images/hammer.svg';
+			ctx.drawImage(image, xpos, 70, 40, 40);
+		  }
+
+		  function doRemainingRocks() {
+			// DO REMAINING ROCKS RED
+			var imagered = new Image;
+			imagered.onload = function() {
+					console.log('red remain', scoreboard.redRocks);
+					var remain = scoreboard.redRocks;
+					var redStartX = 110;
+					var spacer = 45;
+					for (var i = 0; i < remain; i++) {
+						ctx.drawImage(imagered, redStartX, 130, 30, 30); 
+						redStartX += spacer;
+					}
+				
+				}
+				console.log('red remain', scoreboard.redRocks);
+				var remain = scoreboard.redRocks;
+				var redStartX = 110;
+				var spacer = 45;
+				for (var i = 0; i < remain; i++) {
+					ctx.drawImage(imagered, redStartX, 130, 30, 30); 
+					redStartX += spacer;
+				}
+			imagered.src = STONE_ICON_RED;
+
+			// DO REMAINING ROCKS YEL
+			var imageyel = new Image;
+			imageyel.onload = function() {
+					console.log('yellow remain', scoreboard.yellowRocks);
+					var remain = scoreboard.yellowRocks;
+					var yelStartX = 890;
+					var spacer = 45;
+					for (var i = 0; i < remain; i++) {
+						ctx.drawImage(imageyel, yelStartX, 130, 30, 30); 
+						yelStartX += spacer;
+					}
+				
+				}
+				var remain = scoreboard.yellowRocks;
+				var yelStartX = 890;
+				var spacer = 45;
+				for (var i = 0; i < remain; i++) {
+					ctx.drawImage(imageyel, yelStartX, 130, 30, 30); 
+					yelStartX += spacer;
+				}
+			imageyel.src = STONE_ICON_YEL;
+
+		  }
+		  doRemainingRocks();
+		  
+		}
+		backgroundImage.src = 'images/rock-count-score.png';
+
+	  
+     
+      
+    } else {
+      console.log('An error occurred!');
+    };
+  };
+  request.onerror = function() {
+    console.log('An error occurred...');
+  };
+  request.send();
+}
+setInterval(refreshScoreboard, 5 * 1000);
+refreshScoreboard();
+</script>
+</body>
+</html>

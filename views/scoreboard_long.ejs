@@ -1,0 +1,162 @@
+<html>
+<head></head>
+<body>
+<canvas id="myCanvas" width="1920" height="1080"
+style="border:0px solid #d3d3d3; background-color">Your browser does not support the HTML5 canvas tag.</canvas>
+<script>
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+function getUrlParam(parameter, defaultvalue) {
+  var urlparameter = defaultvalue;
+  if(window.location.href.indexOf(parameter) > -1){
+    urlparameter = getUrlVars()[parameter];
+  }
+  return urlparameter;
+}
+
+function refreshScoreboard() {
+  var request = new XMLHttpRequest();
+  request.open('GET', '/scoreboard.json?sheetNumber=' + getUrlParam('sheetNumber', 3), true);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      scoreboard = JSON.parse(request.responseText);
+      var c = document.getElementById('myCanvas');
+      var ctx=c.getContext('2d');
+	  
+      
+	  
+	  
+	var backgroundImage = new Image;
+		backgroundImage.onload = function() { 
+			ctx.clearRect(0, 0, 1920, 1080);
+			ctx.drawImage(backgroundImage, 0, 0, 1361, 212);
+			ctx.font='bold 37px Helvetica';
+			ctx.fillStyle='white';
+			ctx.textAlign = 'center';
+			var redTotal = 0;
+			var yellowTotal = 0;
+			scoreboard.red.end.forEach(function(f) {
+				redTotal += parseInt(f);
+			});
+			scoreboard.yellow.end.forEach(function(f) {
+				yellowTotal += parseInt(f);
+			});
+			ctx.fillText(scoreboard.red.name, 253, 55);
+			ctx.fillStyle='black';
+			ctx.fillText(scoreboard.yellow.name, 253, 180);
+			ctx.fillStyle='white';
+			ctx.fillText(redTotal, 1304, 55);
+			var leftOffset = 609
+			if (scoreboard.end > 1) {
+				ctx.fillText(scoreboard.red.end[0], leftOffset + 12, 55);
+			}
+			if (scoreboard.end > 2) {
+				ctx.fillText(scoreboard.red.end[1], leftOffset + 69, 55);
+			}
+			if (scoreboard.end > 3) {
+				ctx.fillText(scoreboard.red.end[2],  leftOffset + 125, 55);
+			}
+			if (scoreboard.end > 4) {
+				ctx.fillText(scoreboard.red.end[3],  leftOffset + 179, 55);
+			}
+			if (scoreboard.end > 5) {
+				ctx.fillText(scoreboard.red.end[4],  leftOffset + 236, 55);
+			}
+			if (scoreboard.end > 6) {
+				ctx.fillText(scoreboard.red.end[5],  leftOffset + 290, 55);
+			}
+			if (scoreboard.end > 7) {
+				ctx.fillText(scoreboard.red.end[6],  leftOffset + 348, 55);
+			}
+			if (scoreboard.end > 8) {
+				ctx.fillText(scoreboard.red.end[7],  leftOffset + 404, 55);
+			}
+			if (scoreboard.end > 9) {
+				ctx.fillText(scoreboard.red.end[8],  leftOffset + 460, 55);
+			}
+			if (scoreboard.end > 10) {
+				ctx.fillText(scoreboard.red.end[9],  leftOffset + 516, 55);
+			}
+			if (scoreboard.end > 11) {
+				ctx.fillText(scoreboard.red.end[10],  leftOffset + 572, 55);
+			}
+			if (scoreboard.end > 12) {
+				ctx.fillText(scoreboard.red.end[11],  leftOffset + 629, 55);
+			}
+			ctx.fillStyle='black';
+			ctx.fillText(yellowTotal, 1304, 180);
+			if (scoreboard.end > 1) {
+				ctx.fillText(scoreboard.yellow.end[0],   leftOffset + 12, 180);
+			}
+			if (scoreboard.end > 2) {
+				ctx.fillText(scoreboard.yellow.end[1],  leftOffset + 69, 180);
+			}
+			if (scoreboard.end > 3) {
+				ctx.fillText(scoreboard.yellow.end[2],   leftOffset + 125, 180);
+			}
+			if (scoreboard.end > 4) {
+				ctx.fillText(scoreboard.yellow.end[3],   leftOffset + 179, 180);
+			}
+			if (scoreboard.end > 5) {
+				ctx.fillText(scoreboard.yellow.end[4],   leftOffset + 236, 180);
+			}
+			if (scoreboard.end > 6) {
+				ctx.fillText(scoreboard.yellow.end[5],   leftOffset + 290, 180);
+			}
+			if (scoreboard.end > 7) {
+				ctx.fillText(scoreboard.yellow.end[6],   leftOffset + 348, 180);
+			}
+			if (scoreboard.end > 8) {
+				ctx.fillText(scoreboard.yellow.end[7],   leftOffset + 404, 180);
+			}
+			if (scoreboard.end > 9) {
+				ctx.fillText(scoreboard.yellow.end[8],   leftOffset + 460, 180);
+			}
+			if (scoreboard.end > 10) {
+				ctx.fillText(scoreboard.yellow.end[9],  leftOffset + 516, 180);
+			}
+			if (scoreboard.end > 11) {
+				ctx.fillText(scoreboard.yellow.end[10],  leftOffset + 572, 180);
+			}
+			if (scoreboard.end > 12) {
+				ctx.fillText(scoreboard.yellow.end[11],  leftOffset + 629, 180);
+			}
+			ctx.font='bold 34px Helvetica';
+		  ctx.fillStyle = '#eeeeee';
+		  //ctx.fillText(scoreboard.end, 280, 305);
+		  ctx.font='bold 30px Verdana';
+		  ctx.textAlign = 'center';
+		  //ctx.fillText(scoreboard.matchName, 250, 50);
+		  //ctx.fillText(scoreboard.drawName, 250, 90);
+		  if (scoreboard.end != "End 0" && scoreboard.end != "Final") {
+			height = scoreboard.hammer == 'red' ? 24 : 150;
+			var image = new Image;
+			image.onload = function() { ctx.drawImage(image, 530, height, 40, 40); }
+			image.src = 'images/hammer.svg';
+			ctx.drawImage(image, 530, height, 40, 40);
+		  }
+		}
+		backgroundImage.src = 'images/scoreboard_long2.png';
+
+	  
+     
+      
+    } else {
+      console.log('An error occurred!');
+    };
+  };
+  request.onerror = function() {
+    console.log('An error occurred...');
+  };
+  request.send();
+}
+setInterval(refreshScoreboard, 5 * 1000);
+refreshScoreboard();
+</script>
+</body>
+</html>

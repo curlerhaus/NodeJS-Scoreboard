@@ -1,0 +1,67 @@
+<html>
+<head></head>
+<!-- <body background="/images/image.png"> -->
+<body>
+<canvas id="myCanvas" width="1280" height="700"
+style="border:0px solid #d3d3d3; background-color">Your browser does not support the HTML5 canvas tag.</canvas>
+<script>
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+function getUrlParam(parameter, defaultvalue) {
+  var urlparameter = defaultvalue;
+  if(window.location.href.indexOf(parameter) > -1){
+    urlparameter = getUrlVars()[parameter];
+  }
+  return urlparameter;
+}
+
+function refreshScoreboard() {
+  var request = new XMLHttpRequest();
+  request.open('GET', '/scoreboard.json?sheetNumber=' + getUrlParam('sheetNumber', 3), true);
+  request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+      scoreboard = JSON.parse(request.responseText);
+      var c = document.getElementById('myCanvas');
+      var ctx=c.getContext('2d');
+      ctx.clearRect(0, 0, 1280, 700);
+      ctx.font='bold 33px Arial';
+      ctx.fillStyle='#ddd';
+      ctx.textAlign = 'left';
+      ctx.fillText(scoreboard.red.name, 120, 30);
+	  ctx.fillText(scoreboard.red.score, 450, 30);
+      ctx.fillText(scoreboard.yellow.score, 760, 30);
+	  ctx.fillText(scoreboard.yellow.name, 840, 30);
+      ctx.font='bold 30px Arial';
+      ctx.fillStyle = '#222';
+	  ctx.textAlign = 'center';
+      ctx.fillText('End '+scoreboard.end, 640, 30);
+      ctx.font='bold 19px Verdana';
+      ctx.fillStyle='#ddd';
+	  ctx.textAlign = 'center';
+      ctx.fillText(scoreboard.matchName, 640, 68);
+      ctx.fillText(scoreboard.drawName, 640, 87);
+      if (scoreboard.end != "End 0" && scoreboard.end != "Final") {
+        strLocation = scoreboard.hammer == 'red' ? 45 : 1180;
+        var image = new Image;
+        image.onload = function() { ctx.drawImage(image, strLocation, 5, 30, 30); }
+        image.src = 'images/hammer.svg';
+      }
+    } else {
+      console.log('An error occurred!');
+    };
+  };
+  request.onerror = function() {
+    console.log('An error occurred...');
+  };
+  request.send();
+}
+setInterval(refreshScoreboard, 5 * 1000);
+refreshScoreboard();
+</script>
+</body>
+</html>

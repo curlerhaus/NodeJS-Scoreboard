@@ -1,0 +1,112 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  .number-input-group .button-plus, .number-input-group .button-minus {
+    width: 30px;
+    height: 30px;
+  }
+  
+  input {
+    height: 30px;
+  }
+</style>
+
+</head>
+<body>
+<p><a href="/?reset=yes">Reset Match</a></p>
+<form action="./" method="post" data-ajax="false">
+
+<% for(i = 0; i < games.length; i++) { %>
+<fieldset>
+<legend>Sheet <%= i + 1 %></legend>
+
+
+
+<div class="number-input-group">
+  <table style="width:100%">
+  <tr>
+    <th>Team</th>
+    <th>1</th> 
+    <th>2</th>
+	<th>3</th>
+	<th>4</th>
+	<th>5</th>
+	<th>6</th>
+	<th>7</th>
+	<th>8</th>
+	<th>9</th>
+	<th>10</th>
+	<th>11</th>
+	<th>12</th>
+  </tr>
+  <tr>
+    <td><%= games[i]['yellow']['name']%> </td>
+    <td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][0] %>" name="games[<%= i %>][yellow][end][0]"/></td> 
+    <td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][1] %>" name="games[<%= i %>][yellow][end][1]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][2] %>" name="games[<%= i %>][yellow][end][2]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][3] %>" name="games[<%= i %>][yellow][end][3]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][4] %>" name="games[<%= i %>][yellow][end][4]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][5] %>" name="games[<%= i %>][yellow][end][5]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][6] %>" name="games[<%= i %>][yellow][end][6]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][7] %>" name="games[<%= i %>][yellow][end][7]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][8] %>" name="games[<%= i %>][yellow][end][8]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][9] %>" name="games[<%= i %>][yellow][end][9]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][10] %>" name="games[<%= i %>][yellow][end][10]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['yellow']['end'][11] %>" name="games[<%= i %>][yellow][end][11]"/></td>
+  </tr>
+  <tr>
+    <td><%= games[i]['red']['name']%> </td>
+    <td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][0] %>" name="games[<%= i %>][red][end][0]"/></td> 
+    <td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][1] %>" name="games[<%= i %>][red][end][1]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][2] %>" name="games[<%= i %>][red][end][2]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][3] %>" name="games[<%= i %>][red][end][3]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][4] %>" name="games[<%= i %>][red][end][4]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][5] %>" name="games[<%= i %>][red][end][5]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][6] %>" name="games[<%= i %>][red][end][6]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][7] %>" name="games[<%= i %>][red][end][7]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][8] %>" name="games[<%= i %>][red][end][8]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][9] %>" name="games[<%= i %>][red][end][9]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][10] %>" name="games[<%= i %>][red][end][10]"/></td>
+	<td><input type="number" step="1" max="" value="<%= games[i]['red']['end'][11] %>" name="games[<%= i %>][red][end][11]"/></td>
+  </tr>
+</table>
+</div>
+
+<fieldset data-role="controlgroup" data-type="horizontal" id="hammer" name="hammer"> 
+<legend>Hammer:</legend> 
+<label>
+<input type="radio" name="games[<%= i %>][hammer]" id="hammerChoiceRed" value="red"<%= games[i]['hammer'] == "red" ? " checked" : ""%>> 
+Red</label>
+<label>
+<input type="radio" name="games[<%= i %>][hammer]" id="hammerChoiceYellow" value="yellow"<%= games[i]['hammer'] == "yellow" ? " checked" : "" %>>
+Yellow</label> 
+</fieldset> 
+End: 
+<div class="number-input-group">
+  <input type="button" value="-" class="button-minus">
+  <input type="number" step="1" max="" value="<%= games[i]['end'] %>" name="games[<%= i %>][end]"/>
+  <input type="button" value="+" class="button-plus">
+</div>
+Red Rocks Remaining:
+<div class="number-input-group">
+  <input type="button" value="-" class="button-minus">
+  <input type="number" step="1" max="" value="<%= games[i]['redRocks'] %>" name="games[<%= i %>][redRocks]"/>
+  <input type="button" value="+" class="button-plus">
+</div>
+Yellow Rocks Remaining:
+<div class="number-input-group">
+  <input type="button" value="-" class="button-minus">
+  <input type="number" step="1" max="" value="<%= games[i]['yellowRocks'] %>" name="games[<%= i %>][yellowRocks]"/>
+  <input type="button" value="+" class="button-plus">
+</div>
+</select><br />
+<input type="text" name="games[<%= i %>][red][name]" value="<%= games[i]['red']['name'] %>"><br>
+<input type="text" name="games[<%= i %>][yellow][name]" value="<%= games[i]['yellow']['name'] %>"><br>
+<input type="submit" value="Submit">
+<p><a href="/scoreboard?sheetNumber=<%= i + 1 %>" target=_blank>View Scoreboard</a></p>
+<p><a href="/scoreboard2?sheetNumber=<%= i + 1 %>" target=_blank>View Alternate Scoreboard</a></p>
+</fieldset>
+<% } %>
+</form>
+<script src="/javascripts/index.js"></script>
